@@ -1,8 +1,10 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
-import "./App.css";
-import { Link } from "react-router";
+
+import { useState } from 'react'
+import reactLogo from './assets/react.svg'
+import viteLogo from '/vite.svg'
+import './App.css'
+import { Link } from 'react-router'
+
 
 function App() {
   const [count, setCount] = useState(0);
@@ -17,6 +19,12 @@ function App() {
           <img src={reactLogo} className="logo react" alt="React logo" />
         </a>
       </div>
+
+      <h1>Vite + React</h1>
+      <Link to={"/login"}>halaman login</Link>
+      <br/>
+      <Link to={"/register"}>halaman register</Link>
+
       <div className="card">
         <p>
           <Link to="/Home">Home</Link>
