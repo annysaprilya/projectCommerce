@@ -18,8 +18,9 @@ function Login() {
           password: formLogin.password
         })
         localStorage.setItem("accessToken",data.data.accessToken)
+        localStorage.setItem("user", JSON.stringify(data.data.user));
         console.log(data.data)
-        // nav("/");
+        nav("/");
       } catch (error) {
         console.log(error)
       }
