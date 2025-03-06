@@ -30,9 +30,7 @@ const Navbar = () => {
         <a href="#cart" style={linkStyle}>
           Cart
         </a>
-        <a href="#login" style={linkStyle}>
-          Login
-        </a>
+        <Link style={linkStyle} to={"/login"}>Login</Link>
       </div>
     </nav>
   );
