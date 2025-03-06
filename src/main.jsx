@@ -29,7 +29,7 @@ createRoot(document.getElementById("root")).render(
       <AuthProvider>
         <Routes>
           <Route path="/" element={<App />} />
-          <Route path="/detailproduk" element={<DetailProduk />} />
+          <Route path="/detailproduk/:id" element={<DetailProduk />} />
           <Route path="/AddProduct" element={<AddProduct />} />
           <Route path="/AddCategory" element={<AddCategory />} />
           <Route path="/CartList" element={<CartList />} />

@@ -3,6 +3,7 @@ import Navbar from "../components/Navbar";
 import baju from "/baju.jpg";
 import axios from "axios";
 import Hero from "../components/Hero";
+import { Link } from "react-router";
 
 const Home = () => {
   const [products, setProducts] = useState([]);
@@ -60,7 +61,8 @@ const Home = () => {
               cursor: "pointer",
             }}
           >
-            Detail Product
+            <Link to={`/detailproduk/${product.id}`}>Detail Product</Link>
+            
           </button>
         </form>
       </div>

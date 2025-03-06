@@ -10,7 +10,7 @@ export const AuthProvider = ({children})=>{
     const nav = useNavigate()
 
     useEffect(()=>{
-        if(path.pathname != "/login" && path.pathname !== "/home" && !isAuthenticated){
+        if(path.pathname != "/login" && path.pathname !== "/home" && path.pathname.indexOf("/detailproduk/") !== 0 && !isAuthenticated){
             nav("/login")
         }
     },[path])

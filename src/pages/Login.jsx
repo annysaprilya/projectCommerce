@@ -20,7 +20,7 @@ function Login() {
         localStorage.setItem("accessToken",data.data.accessToken)
         localStorage.setItem("user", JSON.stringify(data.data.user));
         console.log(data.data)
-        nav("/");
+        nav("/home");
       } catch (error) {
         console.log(error)
       }
