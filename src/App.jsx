@@ -20,6 +20,12 @@ function App() {
         </a>
       </div>
 
+      <div className="card">
+        <p><Link to="/AddProduct">Add Product</Link></p>
+        <p><Link to="/AddCategory">Add Category</Link></p>
+        <p><Link to="/CartList">Cart</Link></p>
+
+
       <h1>Vite + React</h1>
       <Link to={"/login"}>halaman login</Link>
       <br/>
@@ -29,6 +35,7 @@ function App() {
         <p>
           <Link to="/Home">Home</Link>
         </p>
+
       </div>
     </>
   );
