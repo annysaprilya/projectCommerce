@@ -12,7 +12,7 @@ const DetailProduk = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const { data } = await axios.get(http://10.50.0.13:3003/products/1);
+                const { data } = await axios.get(`http://10.50.0.13:3003/products/1`);
                 setDetailProduk(data);
             } catch (error) {
                 console.log(error);
@@ -74,7 +74,7 @@ const DetailProduk = () => {
                         <p><strong>Deskripsi:</strong> {DetailProduk.description}</p>
                         <p><strong>Stok:</strong> 
                             <span style={{ color: DetailProduk.stock > 0 ? '#28a745' : '#dc3545' }}>
-                                {DetailProduk.stock > 0 ?  Tersedia (${DetailProduk.stock}) : ' Stok Habis'}
+                                {DetailProduk.stock > 0 ? ` Tersedia (${DetailProduk.stock})` : ' Stok Habis'}
                             </span>
                         </p>
                         {DetailProduk.stock > 0 && (
