@@ -2,13 +2,23 @@ import React from "react";
 import { Link } from "react-router";
 
 const Navbar = () => {
+
+  const isAuthenticated = !!localStorage.getItem("accessToken")
+  const storedUser = localStorage.getItem("user");
+  const datauser = JSON.parse(storedUser);
+
   const navStyle = {
+    position: "fixed",
+    top: 0,
+    left: 0,
+    width: "100%",
     display: "flex",
     justifyContent: "space-between",
     alignItems: "center",
     backgroundColor: "#1364BA",
     padding: "10px 20px",
     color: "#fff",
+    zIndex: 100,
   };
 
   const linkStyle = {
@@ -24,13 +34,21 @@ const Navbar = () => {
         <h1>Aul Shopping</h1>
       </div>
       <div>
-        <a href="#home" style={linkStyle}>
+        <Link style={linkStyle} to="/home">
           Home
-        </a>
-        <a href="#cart" style={linkStyle}>
+        </Link>
+        <Link style={linkStyle} to="/CartList">
           Cart
-        </a>
-        <Link style={linkStyle} to={"/login"}>Login</Link>
+        </Link>
+        {isAuthenticated && datauser ? (
+            <span style={linkStyle}>
+                {datauser.email}
+            </span>
+        ) : (
+            <Link style={linkStyle} to="/login">
+                Login
+            </Link>
+        )}
       </div>
     </nav>
   );

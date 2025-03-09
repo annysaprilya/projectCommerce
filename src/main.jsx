@@ -17,6 +17,11 @@ import { BrowserRouter, Route, Routes } from 'react-router'
 import Login from './pages/Login.jsx'
 import Register from './pages/Register.jsx'
 import { AuthProvider } from "./context/AuthContext.jsx";
+import Admin from "./pages/Admin.jsx";
+import Layout from "./components/Layout.jsx";
+import Create from "./pages/Create.jsx";
+import Edit from "./pages/Edit.jsx";
+
 
 const token = localStorage.getItem("accessToken")
 if(token){
@@ -26,9 +31,13 @@ if(token){
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <BrowserRouter>
+      <Layout />
       <AuthProvider>
         <Routes>
           <Route path="/" element={<App />} />
+          <Route path="/admin" element={<Admin />} />
+          <Route path="/admin/create" element={<Create />} />
+          <Route path="/admin/edit/:id" element={<Edit />} />
           <Route path="/detailproduk/:id" element={<DetailProduk />} />
           <Route path="/AddProduct" element={<AddProduct />} />
           <Route path="/AddCategory" element={<AddCategory />} />

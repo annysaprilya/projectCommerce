@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { use, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 import baju from "/baju.jpg";
 import Navbar from "../components/Navbar";
@@ -9,7 +9,7 @@ const DetailProduk = () => {
     const [detailProduk, setDetailProduk] = useState(null);
     const [cart, setCart] = useState([]);
     const [quantity, setQuantity] = useState(1);
-    const isAuthenticated = !!localStorage.getItem("accessToken")
+    const isAuthenticated = !!localStorage.getItem("accessToken");
     const storedUser = localStorage.getItem("user");
     const datauser = JSON.parse(storedUser);
 
@@ -17,32 +17,80 @@ const DetailProduk = () => {
         userId: 0,
         productId: 0,
         quantity: 0,
-      });
+    });
+
+    // PUT Cartd ID
+    const updateQuantity = async (productId, newQuantity, cartId) => {
+        console.log("Product ID added: " + productId);
+        console.log("Quantity added: " + newQuantity);
+        console.log("Cart ID: " + cartId);
+
+        try {
+            const response = await axios.put(`http://localhost:3003/cart/${cartId}`, {
+                userId: datauser.id,
+                productId: productId,
+                quantity: newQuantity // Tidak perlu menjumlahkan ulang di sini
+            });
+
+            console.log("Update successful: ", JSON.stringify(response.data));
+        } catch (error) {
+            console.log('Error updating quantity:', error);
+        }
+    };
+
     useEffect(() => {
-        const fetchData = async () => {
+        const fetchDataProduct = async () => {
             try {
-                const { data } = await axios.get(`http://10.50.0.13:3003/products/` + id);
+                const { data } = await axios.get(`http://localhost:3003/products/ + id`);
                 setDetailProduk(data);
             } catch (error) {
                 console.log(error);
             }
         };
-        fetchData();
+        fetchDataProduct();
     }, [id]);
+
     useEffect(() => {
         if (datapost.userId !== 0 && datapost.productId !== 0 && datapost.quantity !== 0) {
-            postDataCart();
+            const fetchUpdateQuantity = async () => {
+                try {
+                    const { data } = await axios.get(`http://localhost:3003/cart?userId=${datauser.id}`);
+
+                    let found = false;
+
+                    if (Array.isArray(data)) {
+                        data.forEach((item) => {
+                            if (item.productId === datapost.productId) {
+                                console.log("GET by cartId:", JSON.stringify(item));
+                                updateQuantity(item.productId, item.quantity + datapost.quantity, item.id);
+                                found = true;
+                            }
+                        });
+                    } else {
+                        console.log("Data yang diterima bukan array:", data);
+                    }
+
+                    if (!found) {
+                        postDataCart();
+                    }
+                } catch (error) {
+                    console.log(error);
+                }
+            };
+
+            fetchUpdateQuantity();
         }
     }, [datapost]);
 
     const postDataCart = async () => {
         try {
-          const response = await axios.post('http://10.50.0.13:3003/cart', datapost);
-          console.log('Data berhasil dikirim:', response.data);
+            const response = await axios.post('http://localhost:3003/cart', datapost);
+            console.log('Data berhasil dikirim:', response.data);
         } catch (error) {
-          console.log('Error mengirim data:', error);
+            console.log('Error mengirim data:', error);
         }
-      };
+    };
+
     const addToCart = () => {
         if (detailProduk) {
             const newItem = {
@@ -60,13 +108,13 @@ const DetailProduk = () => {
             } else {
                 setCart([...cart, newItem]);
             }
-            const newPost={
+
+            setDataPost({
                 userId: datauser.id,
                 productId: detailProduk.id,
                 quantity: quantity,
-            }
-            setDataPost(newPost);
-            // postDataCart();
+            });
+
             setQuantity(1);
         }
     };
@@ -84,53 +132,50 @@ const DetailProduk = () => {
     };
 
     return (
-        
         <div style={styles.container}>
             <div>
                 <Navbar />
-
-            <div>
-                {detailProduk && (
-                    <>
-                        <div style={styles.imageBox}>
-                            <img 
-                                src={baju} 
-                                alt={detailProduk.name} 
-                                style={styles.productImage} 
-                                onError={(e) => { e.target.src = 'https://via.placeholder.com/300x400'; }}
-                            />
-                        </div>
-                        <div style={styles.detailBox}>
-                            <h2 style={styles.title}>Detail Produk</h2>
-                            <p><strong>Nama Produk:</strong> {detailProduk.name}</p>
-                            <p><strong>Harga:</strong> Rp {detailProduk.price}</p>
-                            <p><strong>Kategori:</strong> {detailProduk.categoryId}</p>
-                            <p><strong>Deskripsi:</strong> {detailProduk.description}</p>
-                            <p><strong>Stok:</strong> 
-                                <span style={{ color: detailProduk.stock > 0 ? '#28a745' : '#dc3545' }}>
-                                    {detailProduk.stock > 0 ? ` Tersedia (${detailProduk.stock})` : ' Stok Habis'}
-                                </span>
-                            </p>
-
-                            <div>
-                                {detailProduk.stock > 0 && isAuthenticated &&(
-                                    <div style={styles.quantityControl}>
-                                        <button onClick={decreaseQuantity} style={styles.quantityButton}>-</button>
-                                        <span style={styles.quantityText}>{quantity}</span>
-                                        <button onClick={increaseQuantity} style={styles.quantityButton}>+</button>
-                                    </div>
-                                )}
-                                {detailProduk.stock > 0 && isAuthenticated &&(
-                                    <button style={styles.button} onClick={addToCart}>
-                                        🛒 Tambah ke Keranjang
-                                    </button>
-                                )}
+                <div>
+                    {detailProduk && (
+                        <>
+                            <div style={styles.imageBox}>
+                                <img 
+                                    src={baju} 
+                                    alt={detailProduk.name} 
+                                    style={styles.productImage} 
+                                    onError={(e) => { e.target.src = 'https://via.placeholder.com/300x400'; }}
+                                />
                             </div>
-                        </div>
-                    </>
-                )}
+                            <div style={styles.detailBox}>
+                                <h2 style={styles.title}>Detail Produk</h2>
+                                <p><strong>Nama Produk:</strong> {detailProduk.name}</p>
+                                <p><strong>Harga:</strong> Rp {detailProduk.price}</p>
+                                <p><strong>Kategori:</strong> {detailProduk.categoryId}</p>
+                                <p><strong>Deskripsi:</strong> {detailProduk.description}</p>
+                                <p><strong>Stok:</strong> 
+                                    <span style={{ color: detailProduk.stock > 0 ? '#28a745' : '#dc3545' }}>
+                                        {detailProduk.stock > 0 ? ` Tersedia (${detailProduk.stock})` : ' Stok Habis'}
+                                    </span>
+                                </p>
 
-            </div>
+                                <div>
+                                    {detailProduk.stock > 0 && isAuthenticated && (
+                                        <div style={styles.quantityControl}>
+                                            <button onClick={decreaseQuantity} style={styles.quantityButton}>-</button>
+                                            <span style={styles.quantityText}>{quantity}</span>
+                                            <button onClick={increaseQuantity} style={styles.quantityButton}>+</button>
+                                        </div>
+                                    )}
+                                    {detailProduk.stock > 0 && isAuthenticated && (
+                                        <button style={styles.button} onClick={addToCart}>
+                                            🛒 Tambah ke Keranjang
+                                        </button>
+                                    )}
+                                </div>
+                            </div>
+                        </>
+                    )}
+                </div>
             </div>
         </div>
     );

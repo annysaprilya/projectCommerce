@@ -11,7 +11,7 @@ const Home = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`http://10.50.0.13:3003/products`);
+        const response = await axios.get(`http://localhost:3003/products`);
         console.log(response.data);
         setProducts(response.data);
       } catch (error) {
@@ -50,20 +50,19 @@ const Home = () => {
         <p style={{ textAlign: "center", marginBottom: "20px" }}>{product.stock}</p>
 
         <form style={{ ...formStyle, alignItems: "center" }}>
-          <button
+        <button
             type="submit"
             style={{
-              padding: "10px 20px",
-              borderRadius: "5px",
-              border: "none",
-              backgroundColor: "#007bff",
-              color: "#fff",
-              cursor: "pointer",
+                padding: "10px 20px",
+                borderRadius: "5px",
+                border: "none",
+                backgroundColor: "#007bff",
+                color: "#fff",
+                cursor: "pointer",
             }}
-          >
-            <Link to={`/detailproduk/${product.id}`}>Detail Product</Link>
-            
-          </button>
+        >
+            <Link to={`/detailproduk/${product.id}`} style={{color:"#fff", textDecoration:"none"}}>Detail Product</Link>
+        </button>
         </form>
       </div>
     ));
