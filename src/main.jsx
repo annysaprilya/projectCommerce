@@ -21,6 +21,9 @@ import Admin from "./pages/Admin.jsx";
 import Layout from "./components/Layout.jsx";
 import Create from "./pages/Create.jsx";
 import Edit from "./pages/Edit.jsx";
+import AdminCategory from "./pages/AdminCategory.jsx";
+import CreateCategory from "./pages/CreateCategory.jsx";
+import EditCategory from "./pages/EditCategory.jsx";
 
 
 const token = localStorage.getItem("accessToken")
@@ -36,6 +39,9 @@ createRoot(document.getElementById("root")).render(
         <Routes>
           <Route path="/" element={<App />} />
           <Route path="/admin" element={<Admin />} />
+          <Route path="/admincategory" element={<AdminCategory />} />
+          <Route path="/admincategory/createcategory" element={<CreateCategory/>} />
+          <Route path="/admincategory/editcategory/:id" element={<EditCategory />} />
           <Route path="/admin/create" element={<Create />} />
           <Route path="/admin/edit/:id" element={<Edit />} />
           <Route path="/detailproduk/:id" element={<DetailProduk />} />

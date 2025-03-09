@@ -1,7 +1,14 @@
 import React from "react";
-import { BrowserRouter, Link } from "react-router";
+import { BrowserRouter, Link, useNavigate } from "react-router";
 
 const Layout = () => {
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+      localStorage.clear();
+
+      navigate("/login");
+  };
   return (
     <nav className="navbar navbar-expand-lg bg-white border-bottom bpx-shadow">
       <div className="container">
@@ -32,14 +39,9 @@ const Layout = () => {
             </a>
             <ul className="dropdown-menu">
               <li>
-                <Link className="dropdown-item" to="/Customer">
-                  Customer
-                </Link>
-              </li>
-              <li>
-                <Link className="dropdown-item" to="/Logout">
+                <button className="dropdown-item" onClick={handleLogout}>
                   Logout
-                </Link>
+                </button>
               </li>
             </ul>
           </li>

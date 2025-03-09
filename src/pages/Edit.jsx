@@ -20,10 +20,9 @@ const Edit = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const data = await axios.put(`http://localhost:3003/products/` + id);
+        const data = await axios.get(`http://localhost:3003/products/` + id);
         console.log(data.data);
         setFormData(data.data);
-        navigate("/admin");
       } catch (error) {
         console.log(error);
       }
@@ -39,6 +38,7 @@ const Edit = () => {
         price: formData.price,
         categoryId: formData.categoryId,
         image: formData.image,
+        userId: datauser.userId,
         description: formData.description,
         stock: formData.stock,
       });

@@ -25,7 +25,7 @@ const AddCategory = () => {
     const handleSubmit = (event) => {
         event.preventDefault()
         try {
-            axios.post('http://10.50.0.13:3003/categories', {
+            axios.post('http://localhost:3003/categories', {
                 name: category.name
             })
             navigate("/");

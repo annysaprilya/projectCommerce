@@ -29,7 +29,7 @@ const AddProduct = () => {
     const handleSubmit = (event) => {
         event.preventDefault()
         try {
-            axios.post('http://10.50.0.13:3003/products', {
+            axios.post('http://localhost:3003/products', {
                 name: product.name,
                 price: product.price,
                 categoryId: product.categoryId,

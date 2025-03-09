@@ -1,7 +1,7 @@
 /* Login.css */
 .login-page {
     font-family: 'Poppins', sans-serif;
-    background: linear-gradient(to right, #517596, #4ea1a5);
+    background: #517596;
     display: flex;
     justify-content: center;
     align-items: center;
